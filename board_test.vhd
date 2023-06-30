@@ -47,6 +47,7 @@ architecture tester_architecture of tester is
         wait for 10 ns;
         enable_set <= '0';
         enable_run <= '1';
+        wait for 10 ns;
         clk_i <= '1';
         wait for 10 ns;
         clk_i <= '0';
