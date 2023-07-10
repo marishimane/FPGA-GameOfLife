@@ -22,7 +22,7 @@ begin
 
     process(clk)
         variable alive_neighbors : integer range 0 to 8;
-        variable current_state : std_logic;
+        variable current_state : std_logic := '0';
         variable next_state : std_logic;
 
         begin

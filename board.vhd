@@ -1,15 +1,21 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.ALL;
 use work.cell;
 
 entity board is
     generic(N : natural := 16);
     port (
         clk : in STD_LOGIC;
-        values : in STD_LOGIC_VECTOR(0 to (N*N - 1) );
         enable_set : in STD_LOGIC;
         enable_run : in std_logic;
-        out_o : out STD_LOGIC_VECTOR(0 to (N*N - 1) )
+
+        value : in STD_LOGIC;
+        in_x : in STD_LOGIC_VECTOR(0 to N-1);
+        in_y : in STD_LOGIC_VECTOR(0 to N-1);
+
+
+        out_o : out STD_LOGIC
     );
 end board;
 
@@ -20,21 +26,8 @@ architecture Behavioral of board is
 
     signal cells_out : board_t;
     signal cells_neighbors : neighbors_t;
-    signal cells_values : board_t;
 
 begin
-    input_cells_values_row: for y in 0 to (N-1) generate
-      input_cells_values_col: for x in 0 to (N-1) generate
-        cells_values(y)(x) <= values(N*y + x);
-      end generate input_cells_values_col;
-    end generate input_cells_values_row;
-
-    output_cells_row: for y in 0 to (N-1) generate
-      output_cells_col: for x in 0 to (N-1) generate
-        out_o(N*y + x) <= cells_out(y)(x);
-      end generate output_cells_col;
-    end generate output_cells_row;
-    
     -- TOP LEFT
     cells_neighbors(0)(0)(0) <= '0';
     cells_neighbors(0)(0)(1) <= '0';
@@ -140,8 +133,10 @@ begin
         cell_y_x: entity work.cell
           port map(
             clk => clk,
-            value_i => cells_values(y)(x),
-            enable_set_i => enable_set,
+            value_i => value,
+            enable_set_i => enable_set
+                when ( x = to_integer(unsigned(in_x)) and y = to_integer(unsigned(in_y)) )
+                else '0',
             enable_run_i => enable_run,
             neighbors => cells_neighbors(y)(x),
             current_state_o => cells_out(y)(x)
@@ -149,4 +144,6 @@ begin
 
       end generate cell_cols;
     end generate cell_rows;
+
+    out_o <= cells_out(to_integer(unsigned(in_y)))(to_integer(unsigned(in_x)));
 end Behavioral;
