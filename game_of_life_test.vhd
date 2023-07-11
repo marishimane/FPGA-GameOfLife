@@ -22,8 +22,8 @@ architecture tester_architecture of tester is
 	signal en_iter_write : std_logic := '0';
     signal en_cell_write : STD_LOGIC;
     signal in_value : STD_LOGIC;
-    signal in_rx : integer := 0;
-    signal in_ry : integer := 0;
+    signal in_x : integer := 0;
+    signal in_y : integer := 0;
 
     signal in_run_simulation : STD_LOGIC;
     signal out_cell_value : STD_LOGIC;
@@ -43,8 +43,8 @@ architecture tester_architecture of tester is
 
                 en_cell_write => en_cell_write,
                 in_value => in_value,
-                in_rx => in_rx,
-                in_ry => in_ry,
+                in_x => in_x,
+                in_y => in_y,
 
                 in_run_simulation => in_run_simulation,
 
@@ -59,11 +59,11 @@ architecture tester_architecture of tester is
 
     CLOCK:
     process 
-      variable var_in_rx : integer := 0;
-      variable var_in_ry : integer := 0;
+      variable var_in_x : integer := 0;
+      variable var_in_y : integer := 0;
     begin
-        in_rx <= var_in_rx;
-        in_ry <= var_in_ry;
+        in_x <= var_in_x;
+        in_y <= var_in_y;
         -- Set iterations
         iterations <= 4;
         en_iter_write <= '1';
@@ -75,20 +75,20 @@ architecture tester_architecture of tester is
         -- Set cell inital values
         en_iter_write <= '0';
         en_cell_write <= '1';
-        var_in_rx := 0;
-        var_in_ry := 0;
-        while(var_in_ry < N) loop
-          var_in_rx := 0;
-          while(var_in_rx < N) loop
-            in_value <= initial_values(var_in_ry*N + var_in_rx);
+        var_in_x := 0;
+        var_in_y := 0;
+        while(var_in_y < N) loop
+          var_in_x := 0;
+          while(var_in_x < N) loop
+            in_value <= initial_values(var_in_y*N + var_in_x);
             clk_i <= '0';
             wait for 10 ns;
             clk_i <= '1';
             wait for 10 ns;
 
-            var_in_rx := var_in_rx + 1;
+            var_in_x := var_in_x + 1;
           end loop;
-          var_in_ry := var_in_ry + 1;
+          var_in_y := var_in_y + 1;
         end loop;
         en_cell_write <= '0';
         -- TODO
@@ -112,20 +112,20 @@ architecture tester_architecture of tester is
 
 
         -- Check output
-        var_in_rx := 0;
-        var_in_ry := 0;
-        while(var_in_ry < N) loop
-          var_in_rx := 0;
-          while(var_in_rx < N) loop
-            assert(out_cell_value=expected_output(var_in_ry*N + var_in_rx) ) report "Fail" severity failure;
+        var_in_x := 0;
+        var_in_y := 0;
+        while(var_in_y < N) loop
+          var_in_x := 0;
+          while(var_in_x < N) loop
+            assert(out_cell_value=expected_output(var_in_y*N + var_in_x) ) report "Fail" severity failure;
             clk_i <= '0';
             wait for 10 ns;
             clk_i <= '1';
             wait for 10 ns;
 
-            var_in_rx := var_in_rx + 1;
+            var_in_x := var_in_x + 1;
           end loop;
-          var_in_ry := var_in_ry + 1;
+          var_in_y := var_in_y + 1;
         end loop;
 
         wait;

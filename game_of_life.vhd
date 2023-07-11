@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.numeric_std.ALL;
-use work.cell;
+use work.board;
 
 entity game_of_life is
     generic(N : natural := 16;
@@ -14,8 +14,8 @@ entity game_of_life is
 
         en_cell_write : in STD_LOGIC;
         in_value : in STD_LOGIC;
-        in_rx : in integer;
-        in_ry : in integer;
+        in_x : in integer;
+        in_y : in integer;
 
         in_run_simulation : in STD_LOGIC;
 
@@ -25,7 +25,21 @@ entity game_of_life is
 end game_of_life;
 
 architecture Behavioral of game_of_life is
+  signal running_simulation : STD_LOGIC := '0';
 begin
+  BOARD: entity work.board
+    port map(
+        clk => clk,
+        enable_set => en_cell_write,
+        enable_run => running_simulation,
+
+        value => in_value,
+        in_x => std_logic_vector(to_unsigned(in_x, 16)),
+        in_y => std_logic_vector(to_unsigned(in_y, 16)),
+
+        out_o => out_cell_value
+  );
+
   process(clk)
     variable remaining_iter : integer := 0;
     -- States:
@@ -34,6 +48,7 @@ begin
     -- 2: Reading data
     variable state : integer := 0;
   begin
+    running_simulation <= '1' when state = 1 else '0';
     if rising_edge(clk) then
       -- TODO: ver si hay case
       if(state = 0) then
