@@ -12,6 +12,14 @@ entity game_of_life is
         iterations : in integer;
         en_iter_write : in STD_LOGIC;
 
+        en_cell_write : in STD_LOGIC;
+        in_value : in STD_LOGIC;
+        in_rx : in integer;
+        in_ry : in integer;
+
+        in_run_simulation : in STD_LOGIC;
+
+        out_cell_value : out STD_LOGIC;
         out_remaining_iter : out integer
     );
 end game_of_life;
@@ -33,7 +41,10 @@ begin
         if(en_iter_write = '1') then
           remaining_iter := iterations;
         end if;
-        state := 1;
+        if(in_run_simulation = '1') then
+          state := 1;
+        end if;
+
       elsif(state = 1) then
         if(remaining_iter = 0) then
           state := 2;
@@ -41,11 +52,13 @@ begin
           remaining_iter := remaining_iter - 1;
         end if;
         -- Se termino de simular?
+
       elsif(state = 2) then
         -- Por ahora no nos importa
       else
       end if;
     end if;
     out_remaining_iter <= remaining_iter;
+    out_cell_value <= '0';
   end process;
 end Behavioral;
