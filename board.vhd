@@ -11,8 +11,8 @@ entity board is
         enable_run : in std_logic;
 
         value : in STD_LOGIC;
-        in_x : in STD_LOGIC_VECTOR(0 to N-1);
-        in_y : in STD_LOGIC_VECTOR(0 to N-1);
+        in_x : in integer range 0 to N-1;
+        in_y : in integer range 0 to N-1;
 
 
         out_o : out STD_LOGIC
@@ -135,7 +135,7 @@ begin
             clk => clk,
             value_i => value,
             enable_set_i => enable_set
-                when ( x = to_integer(unsigned(in_x)) and y = to_integer(unsigned(in_y)) )
+                when (x = in_x) and (y = in_y)
                 else '0',
             enable_run_i => enable_run,
             neighbors => cells_neighbors(y)(x),
@@ -145,5 +145,5 @@ begin
       end generate cell_cols;
     end generate cell_rows;
 
-    out_o <= cells_out(to_integer(unsigned(in_y)))(to_integer(unsigned(in_x)));
+    out_o <= cells_out(in_y)(in_x);
 end Behavioral;
