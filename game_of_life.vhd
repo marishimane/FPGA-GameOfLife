@@ -54,10 +54,10 @@ begin
       -- report "remaining_iter: " & integer'image(remaining_iter);
 
       if(state = 0) then
-        report "# Writing data";
-        report "in_x: " & integer'image(in_x);
-        report "in_y: " & integer'image(in_y);
-        report "out_cell_value: " & STD_LOGIC'image(out_cell_value);
+        -- report "# Writing data";
+        -- report "in_x: " & integer'image(in_x);
+        -- report "in_y: " & integer'image(in_y);
+        -- report "out_cell_value: " & STD_LOGIC'image(out_cell_value);
 
         if(en_iter_write = '1') then
           remaining_iter := iterations;

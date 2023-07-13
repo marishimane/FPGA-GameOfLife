@@ -63,7 +63,7 @@ architecture tester_architecture of tester is
       variable var_in_y : integer range 0 to N := 0;
     begin
         -- Set iterations
-        iterations <= 4;
+        iterations <= 3;
         en_iter_write <= '1';
         clk_i <= '0';
         wait for 10 ns;
@@ -80,10 +80,10 @@ architecture tester_architecture of tester is
           while(var_in_x < N) loop
             in_x <= var_in_x;
             in_y <= var_in_y;
-            report "WRITE in_x: " & integer'image(in_x);
-            report "WRITE var_in_x: " & integer'image(var_in_x);
-            report "WRITE in_y: " & integer'image(in_y);
-            report "WRITE var_in_y: " & integer'image(var_in_y);
+            -- report "WRITE in_x: " & integer'image(in_x);
+            -- report "WRITE var_in_x: " & integer'image(var_in_x);
+            -- report "WRITE in_y: " & integer'image(in_y);
+            -- report "WRITE var_in_y: " & integer'image(var_in_y);
             in_value <= initial_values(var_in_y*N + var_in_x);
             clk_i <= '0';
             wait for 10 ns;
@@ -117,11 +117,13 @@ architecture tester_architecture of tester is
         while(var_in_y < N) loop
           var_in_x := 0;
           while(var_in_x < N) loop
-            report "var_in_x: " & integer'image(var_in_x);
-            report "var_in_y: " & integer'image(var_in_y);
-            report "out_cell_value: " & std_logic'image(out_cell_value);
-            report "expected_output: " & std_logic'image(expected_output(var_in_y*N + var_in_x));
-            assert(out_cell_value=expected_output(var_in_y*N + var_in_x) ) report "Fail" severity failure;
+            in_x <= var_in_x;
+            in_y <= var_in_y;
+            -- report "var_in_x: " & integer'image(var_in_x);
+            -- report "var_in_y: " & integer'image(var_in_y);
+            -- report "out_cell_value: " & std_logic'image(out_cell_value);
+            -- report "expected_output: " & std_logic'image(expected_output(in_y*N + in_x));
+            assert(out_cell_value=expected_output(in_y*N + in_x) ) report "Fail" severity failure;
             clk_i <= '0';
             wait for 10 ns;
             clk_i <= '1';
