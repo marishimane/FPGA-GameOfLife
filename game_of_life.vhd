@@ -53,9 +53,7 @@ begin
       -- display value of remaining_iter
       -- report "remaining_iter: " & integer'image(remaining_iter);
 
-      -- TODO: ver si hay case
       if(state = 0) then
-        -- Escribimos de alguna manera
         report "# Writing data";
         report "in_x: " & integer'image(in_x);
         report "in_y: " & integer'image(in_y);
@@ -76,7 +74,6 @@ begin
           -- report "remaining_iter: " & integer'image(remaining_iter);
           remaining_iter := remaining_iter - 1;
         end if;
-        -- Se termino de simular?
 
       elsif(state = 2) then
         -- report "# Reading data";
@@ -86,6 +83,5 @@ begin
     end if;
 
     out_remaining_iter <= remaining_iter;
-    -- out_cell_value <= out_o;
   end process;
 end Behavioral;

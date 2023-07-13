@@ -14,7 +14,6 @@ entity board is
         in_x : in integer range 0 to N-1;
         in_y : in integer range 0 to N-1;
 
-
         out_o : out STD_LOGIC
     );
 end board;
@@ -58,7 +57,6 @@ begin
     cells_neighbors(N-1)(0)(5) <= '0';
     cells_neighbors(N-1)(0)(6) <= '0';
     cells_neighbors(N-1)(0)(7) <= '0';
-
 
     -- BOTTOM RIGHT
     cells_neighbors(N-1)(N-1)(0) <= cells_out(N-2)(N-2);
@@ -113,7 +111,6 @@ begin
         cells_neighbors(y)(N-1)(6) <= cells_out(y+1)(N-1);
         cells_neighbors(y)(N-1)(7) <= '0';
     end generate cell_neighbors_right_border;
-
 
     cell_neighbors_rows: for y in 1 to N-2 generate
       cell_neighbors_cols: for x in 1 to N-2 generate

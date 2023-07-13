@@ -60,7 +60,7 @@ begin
             if falling_edge(clk) and enable_run = '1' then
                 current_state := next_state;
             end if;
-            current_state_o <= current_state;-- Se actualiza en el process? o forma parte de la arquitectura y hay que declarar una senial y despues mapear la senial
+            current_state_o <= current_state;
         end process;
 
 end Behavioral;

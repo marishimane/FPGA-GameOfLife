@@ -13,14 +13,14 @@ architecture tester_architecture of tester is
     --Inputs
     signal clk_i : std_logic := '1';
     signal enable_set : std_logic := '0';
-	signal enable_run : std_logic := '0';
+    signal enable_run : std_logic := '0';
 
     signal value : std_logic := '0';
     signal in_x : integer range 0 to N-1 := 0;
     signal in_y : integer range 0 to N-1 := 0;
     
     --Outputs
-	signal out_o : std_logic;
+    signal out_o : std_logic;
     
     -- Clock period definitions
     constant clk_period : time := 1 us;
@@ -38,15 +38,11 @@ architecture tester_architecture of tester is
                 out_o => out_o
                 );
 
-    -- clk_process : process
-    -- begin
-
     CLOCK:
     process 
     begin
         enable_set <= '0';
 
-        -- Glider initialization
         enable_set <= '1';
         value <= '1';
 
@@ -277,7 +273,4 @@ architecture tester_architecture of tester is
         */
         wait;
     end process;
-    -- end process;
-
-
 end tester_architecture;
